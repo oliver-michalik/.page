@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oliver Michálik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #F5F2EB;
+  --surface: #EDEAE1;
+  --border:  #D6D1C4;
+  --ink:     #0D0D0D;
+  --muted:   #888070;
+  --accent:  #0047FF;
+  --ff-disp: 'Bebas Neue', sans-serif;
+  --ff-body: 'DM Sans', sans-serif;
+  --ff-mono: 'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 52px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem 3rem 4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-name {
+  font-family: var(--ff-disp);
+  font-size: clamp(6rem, 13vw, 14rem);
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: up 0.7s 0.1s forwards;
+}
+.hero-name span { color: var(--accent); }
+
+.hero-sub {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: up 0.7s 0.25s forwards;
+}
+
+.hero-motto {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: up 0.7s 0.35s forwards;
+}
+
+.hero-cta {
+  opacity: 0;
+  animation: up 0.7s 0.45s forwards;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.btn:hover { opacity: 0.85; }
+
+/* ── NUMBERS STRIP ── */
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.number-cell {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.number-cell:last-child { border-right: none; }
+
+.num-val {
+  font-family: var(--ff-disp);
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.num-val span { color: var(--accent); }
+
+.num-label {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.num-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+/* ── SECTION ── */
+section { padding: 5rem 3rem; border-bottom: 1px solid var(--border); }
+
+.s-label {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.s-title {
+  font-family: var(--ff-disp);
+  font-size: clamp(3rem, 5.5vw, 6rem);
+  line-height: 0.92;
+  margin-bottom: 3.5rem;
+}
+
+/* ── PROJECTS ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+
+.proj-card {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.proj-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.proj-card:hover { background: var(--surface); }
+.proj-card:hover::after { transform: scaleX(1); }
+
+.proj-num {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.proj-tag {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.proj-title {
+  font-family: var(--ff-disp);
+  font-size: 1.9rem;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+.proj-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.proj-row-label {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.proj-row-val {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.proj-result {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1.5;
+}
+
+/* ── STACK ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.tools-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.tool {
+  background: var(--bg);
+  padding: 1rem 1.1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  transition: background 0.2s, color 0.2s;
+}
+.tool:hover { background: var(--accent); color: #fff; }
+
+.philosophy {
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+}
+.philosophy-quote {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--ink);
+  font-style: italic;
+}
+.philosophy-attr {
+  margin-top: 1.2rem;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── CONTACT ── */
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: end;
+}
+.contact-heading {
+  font-family: var(--ff-disp);
+  font-size: clamp(3.5rem, 6vw, 7.5rem);
+  line-height: 0.9;
+}
+.contact-heading span { color: var(--accent); }
+.contact-sub {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 400px;
+}
+.contact-links { display: flex; flex-direction: column; }
+.clink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--ink);
+  transition: color 0.2s, padding-left 0.2s;
+}
+.clink:first-child { border-top: 1px solid var(--border); }
+.clink:hover { color: var(--accent); padding-left: 0.5rem; }
+.clink-label {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+.clink-val { font-size: 1rem; }
+.clink-arrow { font-size: 1.1rem; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 1.2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+footer span {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── ANIM ── */
+@keyframes up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  nav { padding: 0 1.5rem; }
+  .hero { padding: 7rem 1.5rem 3rem; }
+  .numbers { grid-template-columns: 1fr 1fr; }
+  .number-cell:nth-child(2) { border-right: none; }
+  .number-cell:nth-child(3) { border-top: 1px solid var(--border); }
+  section { padding: 3.5rem 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .stack-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  footer { padding: 1.2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Oliver Michálik</div>
+  <ul class="nav-links">
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="hero-name">OLIVER<br><span>MICHÁLIK</span></h1>
+  <div class="hero-sub">Business Generalist & Growth Enthusiast.</div>
+  <p class="hero-motto">I run campaigns, model data, and ship results.</p>
+  <div class="hero-cta">
+    <a href="#impact" class="btn">View My Impact ↓</a>
+  </div>
+</div>
+
+<!-- NUMBERS STRIP -->
+<div class="numbers reveal" id="impact">
+  <div class="number-cell">
+    <div class="num-val">49 773</div>
+    <div class="num-label">Total Reach</div>
+    <div class="num-sub">Meta Ads · Level Up Campaign</div>
+  </div>
+  <div class="number-cell">
+    <div class="num-val">81 877</div>
+    <div class="num-label">Impressions Generated</div>
+    <div class="num-sub">Across 2 segmented ad sets</div>
+  </div>
+  <div class="number-cell">
+    <div class="num-val">200</div>
+    <div class="num-label">Attendees · Sold Out</div>
+    <div class="num-sub">293 registrations secured</div>
+  </div>
+  <div class="number-cell">
+    <div class="num-val">2.64</div>
+    <div class="num-label">CZK · Avg. Cost Per Click</div>
+    <div class="num-sub">~260 EUR total budget</div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="s-label">Selected Work</div>
+  <div class="s-title">How I Think.</div>
+
+  <div class="projects-grid">
+
+    <div class="proj-card reveal">
+      <div class="proj-num">01 /</div>
+      <div class="proj-tag">Growth Marketing · KI Brno</div>
+      <div class="proj-title">Level Up Konferencia</div>
+      <div class="proj-row">
+        <div class="proj-row-label">Context</div>
+        <div class="proj-row-val">Student investment conference at ECON MUNI Brno — marketing from zero.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Action</div>
+        <div class="proj-row-val">Audience segmentation (18–24 vs 25–32), creative testing, real-time budget optimization (~260 EUR).</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Result</div>
+        <div class="proj-result">1,824 clicks · 200 attendees · sold-out capacity.</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-num">02 /</div>
+      <div class="proj-tag">Analytics · Excel · Forecasting</div>
+      <div class="proj-title">Dukla Trenčín — Inventory Model</div>
+      <div class="proj-row">
+        <div class="proj-row-label">Context</div>
+        <div class="proj-row-val">VIP skybox gastro ordering at a hockey club — manual process, no data-driven baseline.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Action</div>
+        <div class="proj-row-val">Built an automated Excel planner using OLS regression — variables: match type, opponent, occupancy.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Result</div>
+        <div class="proj-result">Demand forecasting dashboard → reduced waste, smarter ordering.</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-num">03 /</div>
+      <div class="proj-tag">Econ & Analytics · ECON MUNI</div>
+      <div class="proj-title">Škoda Octavia — Pricing Analysis</div>
+      <div class="proj-row">
+        <div class="proj-row-label">Context</div>
+        <div class="proj-row-val">What actually drives residual value on the used car market?</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Action</div>
+        <div class="proj-row-val">Econometric OLS regression — mileage, year, spec, trim level as predictors of market price.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Result</div>
+        <div class="proj-result">Quantified key price drivers with a working regression model.</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" style="opacity:0.6;">
+      <div class="proj-num">04 /</div>
+      <div class="proj-tag">Event Tech Strategy · Incoming May 2026</div>
+      <div class="proj-title">Ventrata</div>
+      <div class="proj-row">
+        <div class="proj-row-label">Context</div>
+        <div class="proj-row-val">Joining a high-growth event-tech company used globally for ticketing and tour management.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Focus</div>
+        <div class="proj-row-val">Optimizing event operations and scaling coordinator workflows in a fast-paced international environment.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-row-label">Status</div>
+        <div class="proj-result">Starting May 2026 — results to follow.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STACK & PHILOSOPHY -->
+<section id="stack">
+  <div class="s-label">Stack & Philosophy</div>
+  <div class="s-title">The Generalist<br>Edge.</div>
+  <div class="stack-grid">
+    <div class="tools-list reveal">
+      <div class="tool">Meta Ads Manager</div>
+      <div class="tool">Excel (Advanced)</div>
+      <div class="tool">Python</div>
+      <div class="tool">SQL</div>
+      <div class="tool">Econometrics</div>
+      <div class="tool">Data Analytics</div>
+      <div class="tool">Event Management</div>
+      <div class="tool">Marketing Strategy</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="s-label">Let's Talk Business</div>
+      <div class="contact-heading">Let's<br>connect<span>.</span></div>
+      <p class="contact-sub">
+        Hľadám projekty, kde môžem hýbať číslami.<br>
+        Ak chceš riešiť growth alebo ops, ozvi sa.
+      </p>
+    </div>
+    <div class="contact-links reveal">
+      <a href="https://linkedin.com/in/oliver-michalik" target="_blank" class="clink">
+        <div>
+          <div class="clink-label">LinkedIn</div>
+          <div class="clink-val">oliver-michalik</div>
+        </div>
+        <div class="clink-arrow">↗</div>
+      </a>
+      <a href="mailto:michalik.oli@gmail.com" class="clink">
+        <div>
+          <div class="clink-label">Email</div>
+          <div class="clink-val">michalik.oli@gmail.com</div>
+        </div>
+        <div class="clink-arrow">↗</div>
+      </a>
+      <a href="#" class="clink">
+        <div>
+          <div class="clink-label">GitHub</div>
+          <div class="clink-val">— doplniť username</div>
+        </div>
+        <div class="clink-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Oliver Michálik</span>
+  <span>Brno, Czech Republic</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
